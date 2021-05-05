@@ -201,6 +201,8 @@ public:
     ~BinarySearchTree();
 
     void push_back(T data);
+    void BST_print_asc();
+    void BST_print_desc();
 private:
     template<typename T>
     class Node
@@ -224,6 +226,8 @@ private:
     int size;
 
     void push_back(Node<T> *currentNode, T data);
+    void BST_print_asc(Node<T> *currentNode);
+    void BST_print_desc(Node<T> *currentNode);
 };
 
 template<typename T>
@@ -265,6 +269,42 @@ void BinarySearchTree<T>::push_back(BinarySearchTree::Node<T> *currentNode, T da
     }
 }
 
+template<typename T>
+void BinarySearchTree<T>::BST_print_asc()
+{
+    BST_print_asc(Root);
+    cout << endl;
+}
+
+template<typename T>
+void BinarySearchTree<T>::BST_print_asc(Node<T> *currentNode)
+{
+    if(currentNode == nullptr)
+        return;
+
+    BST_print_asc(currentNode->leftNode);
+    cout << currentNode->data << " ";
+    BST_print_asc(currentNode->rightNode);
+}
+
+template<typename T>
+void BinarySearchTree<T>::BST_print_desc()
+{
+    BST_print_desc(Root);
+    cout << endl;
+}
+
+template<typename T>
+void BinarySearchTree<T>::BST_print_desc(BinarySearchTree::Node<T> *currentNode)
+{
+    if(currentNode == nullptr)
+        return;
+
+    BST_print_desc(currentNode->rightNode);
+    cout << currentNode->data << " ";
+    BST_print_desc(currentNode->leftNode);
+}
+
 #pragma endregion
 
 
@@ -292,6 +332,8 @@ int main() {
     binarySearchTree.push_back(24);
     binarySearchTree.push_back(26);
 
+    binarySearchTree.BST_print_asc();
+    binarySearchTree.BST_print_desc();
 
     return 0;
 }
