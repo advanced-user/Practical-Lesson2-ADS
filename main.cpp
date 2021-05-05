@@ -38,6 +38,8 @@ public:
     void PrintList();
     void PrintListReverse();
     int Sum();
+
+    T& operator[](const int index);
 private:
 
     template<typename T>
@@ -72,6 +74,41 @@ template<typename T>
 LinkedList<T>::~LinkedList()
 {
     clear();
+}
+
+template<typename T>
+void LinkedList<T>::pop_front()
+{
+    Node<T> *temp = Head;
+
+    Head = Head->pNext;
+
+    delete temp;
+}
+
+template<typename T>
+void LinkedList<T>::clear()
+{
+    while(Head != nullptr)
+    {
+        pop_front();
+    }
+}
+
+template<typename T>
+T &LinkedList<T>::operator[](const int index)
+{
+    int counter = 0;
+    Node<T> *currentNode = Head;
+
+    while(currentNode != nullptr)
+    {
+        if(counter == index)
+            return currentNode->data;
+
+        currentNode = currentNode->pNext;
+        counter++;
+    }
 }
 
 template<typename T>
@@ -146,32 +183,13 @@ void LinkedList<T>::PrintListReverse(LinkedList::Node<T> *currentNode)
     cout << currentNode->data << " ";
 }
 
-template<typename T>
-void LinkedList<T>::pop_front()
-{
-    Node<T> *temp = Head;
-
-    Head = Head->pNext;
-
-    delete temp;
-}
-
-template<typename T>
-void LinkedList<T>::clear()
-{
-    while(Head != nullptr)
-    {
-        pop_front();
-    }
-}
-
 
 int main() {
     cout << F(3) << endl;
     cout << Prod(-26, 25) << endl;
 
     LinkedList<int> linkedList;
-    for(int i = 1; i < 10; i++)
+    for(int i = 0; i < 10; i++)
     {
         linkedList.push_back(i);
     }
@@ -180,9 +198,6 @@ int main() {
 
     linkedList.PrintList();
     linkedList.PrintListReverse();
-
-    linkedList.clear();
-    linkedList.PrintList();
 
     return 0;
 }
