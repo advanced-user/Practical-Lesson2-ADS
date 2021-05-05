@@ -33,6 +33,7 @@ public:
     ~LinkedList();
 
     void push_back(T data);
+    void PrintList();
     int Sum();
 private:
 
@@ -54,6 +55,7 @@ private:
     Node<T> *Head;
 
     void push_back(Node<T> *currentNode, T data);
+    void PrintList(Node<T> *currentNode);
     int Sum(Node<T> *currentNode);
 };
 
@@ -104,6 +106,23 @@ int LinkedList<T>::Sum(LinkedList::Node<T> *currentNode) {
     return currentNode->data + Sum(currentNode->pNext);
 }
 
+template<typename T>
+void LinkedList<T>::PrintList()
+{
+    PrintList(Head);
+    cout << endl;
+}
+
+template<typename T>
+void LinkedList<T>::PrintList(LinkedList::Node<T> *currentNode)
+{
+    if(currentNode == nullptr)
+        return;
+
+    cout << currentNode->data << " ";
+    PrintList(currentNode->pNext);
+}
+
 
 int main() {
     cout << F(3) << endl;
@@ -116,6 +135,8 @@ int main() {
     }
 
     cout << linkedList.Sum() << endl;
+
+    linkedList.PrintList();
 
     return 0;
 }
