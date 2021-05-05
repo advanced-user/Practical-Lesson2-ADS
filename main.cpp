@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+#pragma region 1-2
 
 int F(int n)
 {
@@ -24,6 +25,10 @@ int Prod(int a, int b)
     return a + Prod(a, b-1);
 }
 
+#pragma endregion
+
+
+#pragma region LinkedList
 
 template<typename T>
 class LinkedList
@@ -183,6 +188,85 @@ void LinkedList<T>::PrintListReverse(LinkedList::Node<T> *currentNode)
     cout << currentNode->data << " ";
 }
 
+#pragma endregion comment
+
+
+#pragma region BinarySearchTree
+
+template <typename T>
+class BinarySearchTree
+{
+public:
+    BinarySearchTree();
+    ~BinarySearchTree();
+
+    void push_back(T data);
+private:
+    template<typename T>
+    class Node
+    {
+    public:
+        Node<T> *parent;
+        Node<T> *leftNode;
+        Node<T> *rightNode;
+        T data;
+
+        Node(T data = T(), Node *parent = nullptr)
+        {
+            this->data = data;
+            this->parent = parent;
+            this->leftNode = nullptr;
+            this->rightNode = nullptr;
+        }
+    };
+
+    Node<T> *Root;
+    int size;
+
+    void push_back(Node<T> *currentNode, T data);
+};
+
+template<typename T>
+BinarySearchTree<T>::BinarySearchTree()
+{
+    Root = nullptr;
+    size = 0;
+}
+
+template<typename T>
+BinarySearchTree<T>::~BinarySearchTree() {}
+
+template<typename T>
+void BinarySearchTree<T>::push_back(T data)
+{
+    if(Root == nullptr)
+        Root = new Node<T>(data);
+    else
+        push_back(Root, data);
+    size++;
+}
+
+template<typename T>
+void BinarySearchTree<T>::push_back(BinarySearchTree::Node<T> *currentNode, T data)
+{
+    if(currentNode->data >= data)
+    {
+        if(currentNode->leftNode == nullptr)
+            currentNode->leftNode = new Node<T>(data, currentNode);
+        else
+            push_back(currentNode->leftNode, data);
+    }
+    else
+    {
+        if(currentNode->rightNode == nullptr)
+            currentNode->rightNode = new Node<T>(data, currentNode);
+        else
+            push_back(currentNode->rightNode, data);
+    }
+}
+
+#pragma endregion
+
 
 int main() {
     cout << F(3) << endl;
@@ -198,6 +282,16 @@ int main() {
 
     linkedList.PrintList();
     linkedList.PrintListReverse();
+
+    BinarySearchTree<int> binarySearchTree;
+    binarySearchTree.push_back(5);
+    binarySearchTree.push_back(25);
+    binarySearchTree.push_back(2);
+    binarySearchTree.push_back(1);
+    binarySearchTree.push_back(3);
+    binarySearchTree.push_back(24);
+    binarySearchTree.push_back(26);
+
 
     return 0;
 }
