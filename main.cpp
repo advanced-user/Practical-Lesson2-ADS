@@ -32,6 +32,8 @@ public:
     LinkedList();
     ~LinkedList();
 
+    void pop_front();
+    void clear();
     void push_back(T data);
     void PrintList();
     void PrintListReverse();
@@ -52,7 +54,6 @@ private:
         }
     };
 
-    int Size;
     Node<T> *Head;
 
     void push_back(Node<T> *currentNode, T data);
@@ -64,12 +65,14 @@ private:
 template<typename T>
 LinkedList<T>::LinkedList()
 {
-    Size = 0;
     Head = nullptr;
 }
 
 template<typename T>
-LinkedList<T>::~LinkedList(){}
+LinkedList<T>::~LinkedList()
+{
+    clear();
+}
 
 template<typename T>
 void LinkedList<T>::push_back(T data)
@@ -143,6 +146,25 @@ void LinkedList<T>::PrintListReverse(LinkedList::Node<T> *currentNode)
     cout << currentNode->data << " ";
 }
 
+template<typename T>
+void LinkedList<T>::pop_front()
+{
+    Node<T> *temp = Head;
+
+    Head = Head->pNext;
+
+    delete temp;
+}
+
+template<typename T>
+void LinkedList<T>::clear()
+{
+    while(Head != nullptr)
+    {
+        pop_front();
+    }
+}
+
 
 int main() {
     cout << F(3) << endl;
@@ -158,6 +180,9 @@ int main() {
 
     linkedList.PrintList();
     linkedList.PrintListReverse();
+
+    linkedList.clear();
+    linkedList.PrintList();
 
     return 0;
 }
