@@ -25,8 +25,6 @@ int Prod(int a, int b)
 }
 
 
-
-
 template<typename T>
 class LinkedList
 {
@@ -35,6 +33,7 @@ public:
     ~LinkedList();
 
     void push_back(T data);
+    int Sum();
 private:
 
     template<typename T>
@@ -55,6 +54,7 @@ private:
     Node<T> *Head;
 
     void push_back(Node<T> *currentNode, T data);
+    int Sum(Node<T> *currentNode);
 };
 
 template<typename T>
@@ -90,16 +90,32 @@ void LinkedList<T>::push_back(LinkedList::Node<T> *currentNode, T data)
     }
 }
 
+template<typename T>
+int LinkedList<T>::Sum()
+{
+    return Sum(Head);
+}
+
+template<typename T>
+int LinkedList<T>::Sum(LinkedList::Node<T> *currentNode) {
+    if(currentNode == nullptr)
+        return 0;
+
+    return currentNode->data + Sum(currentNode->pNext);
+}
+
 
 int main() {
     cout << F(3) << endl;
     cout << Prod(-26, 25) << endl;
 
     LinkedList<int> linkedList;
-    for(int i = 54; i < 84; i++)
+    for(int i = 1; i < 10; i++)
     {
-        linkedList.push_back(i * 10);
+        linkedList.push_back(i);
     }
+
+    cout << linkedList.Sum() << endl;
 
     return 0;
 }
