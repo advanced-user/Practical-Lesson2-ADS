@@ -203,6 +203,7 @@ public:
     void push_back(T data);
     void BST_print_asc();
     void BST_print_desc();
+    int BST_sum();
 private:
     template<typename T>
     class Node
@@ -224,10 +225,12 @@ private:
 
     Node<T> *Root;
     int size;
+    int sum;
 
     void push_back(Node<T> *currentNode, T data);
     void BST_print_asc(Node<T> *currentNode);
     void BST_print_desc(Node<T> *currentNode);
+    void BST_sum(Node<T> *currentNode);
 };
 
 template<typename T>
@@ -235,6 +238,7 @@ BinarySearchTree<T>::BinarySearchTree()
 {
     Root = nullptr;
     size = 0;
+    sum = 0;
 }
 
 template<typename T>
@@ -305,6 +309,25 @@ void BinarySearchTree<T>::BST_print_desc(BinarySearchTree::Node<T> *currentNode)
     BST_print_desc(currentNode->leftNode);
 }
 
+template<typename T>
+int BinarySearchTree<T>::BST_sum()
+{
+    BST_sum(Root);
+
+    return sum;
+}
+
+template<typename T>
+void BinarySearchTree<T>::BST_sum(BinarySearchTree::Node<T> *currentNode)
+{
+    if(currentNode == nullptr)
+        return;
+
+    sum += currentNode->data;
+    BST_sum(currentNode->leftNode);
+    BST_sum(currentNode->rightNode);
+}
+
 #pragma endregion
 
 
@@ -334,6 +357,8 @@ int main() {
 
     binarySearchTree.BST_print_asc();
     binarySearchTree.BST_print_desc();
+
+    cout << binarySearchTree.BST_sum();
 
     return 0;
 }
