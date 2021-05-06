@@ -1,3 +1,0 @@
-E:/Programming/C++/Practical-Lesson2-ADS/cmake-build-debug/CMakeFiles/Practical_Lesson2_ADS.dir
-E:/Programming/C++/Practical-Lesson2-ADS/cmake-build-debug/CMakeFiles/edit_cache.dir
-E:/Programming/C++/Practical-Lesson2-ADS/cmake-build-debug/CMakeFiles/rebuild_cache.dir

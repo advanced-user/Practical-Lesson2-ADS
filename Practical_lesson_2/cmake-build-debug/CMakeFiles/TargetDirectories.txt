@@ -1,0 +1,3 @@
+C:/Users/Home/Desktop/Practical lessons/Practical_lesson_2/cmake-build-debug/CMakeFiles/Practical_Lesson2_ADS.dir
+C:/Users/Home/Desktop/Practical lessons/Practical_lesson_2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Home/Desktop/Practical lessons/Practical_lesson_2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
