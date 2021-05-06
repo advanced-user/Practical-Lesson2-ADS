@@ -204,6 +204,7 @@ public:
     void BST_print_asc();
     void BST_print_desc();
     int BST_sum();
+    bool isEqual(BinarySearchTree<T> *T2);
     void BST_List(LinkedList<T> *linkedList);
 private:
     template<typename T>
@@ -351,8 +352,26 @@ void BinarySearchTree<T>::BST_List(BinarySearchTree::Node<T> *currentNode, Linke
     BST_List(currentNode->rightNode, linkedList);
 }
 
+template<typename T>
+bool BinarySearchTree<T>::isEqual(BinarySearchTree<T> *binarySearchTree2)
+{
+    if(this->size != binarySearchTree2->size)
+        return false;
 
+    LinkedList<T> linkedList1;
+    this->BST_List(&linkedList1);
 
+    LinkedList<T> linkedList2;
+    binarySearchTree2->BST_List(&linkedList2);
+
+    for(int i = 0; i < this->size; i++)
+    {
+        if(linkedList1[i] != linkedList2[i])
+            return false;
+    }
+
+    return true;
+}
 
 
 #pragma endregion
@@ -386,6 +405,19 @@ int main() {
     binarySearchTree.BST_print_desc();
 
     cout << binarySearchTree.BST_sum() << endl;
+
+    BinarySearchTree<int> binarySearchTree2;
+    binarySearchTree2.push_back(5);
+    binarySearchTree2.push_back(25);
+    binarySearchTree2.push_back(2);
+    binarySearchTree2.push_back(1);
+    binarySearchTree2.push_back(3);
+    binarySearchTree2.push_back(24);
+    binarySearchTree2.push_back(26);
+
+    binarySearchTree2.BST_print_desc();
+
+    cout << binarySearchTree.isEqual(&binarySearchTree2) << endl;
 
     LinkedList<int> L;
     binarySearchTree.BST_List(&L);
