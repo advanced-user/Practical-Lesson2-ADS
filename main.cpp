@@ -209,6 +209,7 @@ public:
     void BST_List(LinkedList<T> *linkedList);
     void makeEmpty();
     int getSize() { return size; }
+    bool isBalanced();
 private:
     template<typename T>
     class Node
@@ -218,6 +219,8 @@ private:
         Node<T> *leftNode;
         Node<T> *rightNode;
         T data;
+        int leftSubtreeHeight;
+        int rightSubtreeHeight;
 
         Node(T data = T(), Node *parent = nullptr)
         {
@@ -231,6 +234,7 @@ private:
     Node<T> *Root;
     int size;
     int sum;
+    bool is_balanced;
 
     void push_back(Node<T> *currentNode, T data);
     void BST_print_asc(Node<T> *currentNode);
@@ -238,6 +242,8 @@ private:
     void BST_sum(Node<T> *currentNode);
     void BST_List(Node<T> *currentNode, LinkedList<T> *linkedList);
     void makeEmpty(Node<T> *currentNode);
+    void calculateSubtreeHeights(Node<T> *currentNode);
+    void isBalanced(Node<T> *currentNode);
 };
 
 template<typename T>
@@ -258,7 +264,9 @@ template<typename T>
 void BinarySearchTree<T>::push_back(T data)
 {
     if(Root == nullptr)
+    {
         Root = new Node<T>(data);
+    }
     else
         push_back(Root, data);
     size++;
@@ -442,6 +450,63 @@ void BinarySearchTree<T>::makeEmpty(Node<T> *currentNode)
     size--;
 }
 
+template<typename T>
+bool BinarySearchTree<T>::isBalanced()
+{
+    is_balanced = true;
+
+    calculateSubtreeHeights(Root);
+    isBalanced(Root);
+
+    return is_balanced;
+}
+
+template<typename T>
+void BinarySearchTree<T>::calculateSubtreeHeights(BinarySearchTree::Node<T> *currentNode)
+{
+    if(currentNode == nullptr)
+        return;
+
+    calculateSubtreeHeights(currentNode->leftNode);
+
+    if(currentNode->leftNode == nullptr)
+        currentNode->leftSubtreeHeight = 0;
+    else
+    {
+        if(currentNode->leftNode->leftSubtreeHeight >= currentNode->leftNode->rightSubtreeHeight)
+            currentNode->leftSubtreeHeight = currentNode->leftNode->leftSubtreeHeight + 1;
+        else
+            currentNode->leftSubtreeHeight = currentNode->leftNode->rightSubtreeHeight + 1;
+    }
+
+    calculateSubtreeHeights(currentNode->rightNode);
+
+
+    if(currentNode->rightNode == nullptr)
+        currentNode->rightSubtreeHeight = 0;
+    else
+    {
+        if(currentNode->rightNode->leftSubtreeHeight >= currentNode->rightNode->rightSubtreeHeight)
+            currentNode->rightSubtreeHeight = currentNode->rightNode->leftSubtreeHeight + 1;
+        else
+            currentNode->rightSubtreeHeight = currentNode->rightNode->rightSubtreeHeight + 1;
+    }
+}
+
+template<typename T>
+void BinarySearchTree<T>::isBalanced(BinarySearchTree::Node<T> *currentNode)
+{
+    if(currentNode == nullptr)
+        return;
+
+    if(currentNode->leftSubtreeHeight > currentNode->rightSubtreeHeight + 1
+    || currentNode->rightSubtreeHeight > currentNode->leftSubtreeHeight + 1)
+        is_balanced = false;
+
+    isBalanced(currentNode->leftNode);
+    isBalanced(currentNode->rightNode);
+}
+
 
 #pragma endregion
 
@@ -484,6 +549,8 @@ int main() {
     binarySearchTree2.push_back(24);
     binarySearchTree2.push_back(26);
     binarySearchTree2.push_back(26);
+    binarySearchTree2.push_back(28);
+    binarySearchTree2.push_back(29);
 
     binarySearchTree2.BST_print_desc();
 
@@ -500,6 +567,8 @@ int main() {
     binarySearchTree.makeEmpty();
     cout << binarySearchTree.getSize() << endl;
     binarySearchTree.BST_print_asc();
+
+    cout << binarySearchTree2.isBalanced() << endl;
 
     return 0;
 }
