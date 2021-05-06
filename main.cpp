@@ -204,9 +204,10 @@ public:
     void BST_print_asc();
     void BST_print_desc();
     int BST_sum();
-    bool isEqual(BinarySearchTree<T> *T2);
-    bool sameData(BinarySearchTree<T> *T2);
+    bool isEqual(BinarySearchTree<T> *binarySearchTree2);
+    bool sameData(BinarySearchTree<T> *binarySearchTree2);
     void BST_List(LinkedList<T> *linkedList);
+    void makeEmpty();
 private:
     template<typename T>
     class Node
@@ -235,6 +236,7 @@ private:
     void BST_print_desc(Node<T> *currentNode);
     void BST_sum(Node<T> *currentNode);
     void BST_List(Node<T> *currentNode, LinkedList<T> *linkedList);
+    void makeEmpty(Node<T> *currentNode);
 };
 
 template<typename T>
@@ -246,7 +248,10 @@ BinarySearchTree<T>::BinarySearchTree()
 }
 
 template<typename T>
-BinarySearchTree<T>::~BinarySearchTree() {}
+BinarySearchTree<T>::~BinarySearchTree()
+{
+    makeEmpty();
+}
 
 template<typename T>
 void BinarySearchTree<T>::push_back(T data)
@@ -332,10 +337,6 @@ void BinarySearchTree<T>::BST_sum(BinarySearchTree::Node<T> *currentNode)
     BST_sum(currentNode->rightNode);
 }
 
-
-
-
-
 template<typename T>
 void BinarySearchTree<T>::BST_List(LinkedList<T> *linkedList)
 {
@@ -404,6 +405,42 @@ bool BinarySearchTree<T>::sameData(BinarySearchTree<T> *binarySearchTree2)
     return true;
 }
 
+template<typename T>
+void BinarySearchTree<T>::makeEmpty()
+{
+    makeEmpty(Root);
+}
+
+template<typename T>
+void BinarySearchTree<T>::makeEmpty(Node<T> *currentNode)
+{
+    if(currentNode == nullptr)
+        return;
+
+    makeEmpty(currentNode->leftNode);
+    makeEmpty(currentNode->rightNode);
+
+    if(currentNode->parent == nullptr)
+    {
+        Root = nullptr;
+        delete Root;
+    }
+    else if(currentNode->parent->leftNode != nullptr)
+    {
+        currentNode->parent->leftNode = NULL;
+        currentNode->parent = NULL;
+        delete currentNode;
+    }
+    else
+    {
+        currentNode->parent->rightNode = NULL;
+        currentNode->parent = NULL;
+        delete currentNode;
+    }
+
+    size--;
+}
+
 
 #pragma endregion
 
@@ -456,6 +493,10 @@ int main() {
     binarySearchTree.BST_List(&L);
 
     L.PrintList();
+
+    binarySearchTree.BST_print_asc();
+    binarySearchTree.makeEmpty();
+    binarySearchTree.BST_print_asc();
 
     return 0;
 }
