@@ -208,6 +208,7 @@ public:
     bool sameData(BinarySearchTree<T> *binarySearchTree2);
     void BST_List(LinkedList<T> *linkedList);
     void makeEmpty();
+    int getSize() { return size; }
 private:
     template<typename T>
     class Node
@@ -495,7 +496,9 @@ int main() {
     L.PrintList();
 
     binarySearchTree.BST_print_asc();
+    cout << binarySearchTree.getSize() << endl;
     binarySearchTree.makeEmpty();
+    cout << binarySearchTree.getSize() << endl;
     binarySearchTree.BST_print_asc();
 
     return 0;
