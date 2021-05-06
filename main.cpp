@@ -204,6 +204,7 @@ public:
     void BST_print_asc();
     void BST_print_desc();
     int BST_sum();
+    void BST_List(LinkedList<T> *linkedList);
 private:
     template<typename T>
     class Node
@@ -231,6 +232,7 @@ private:
     void BST_print_asc(Node<T> *currentNode);
     void BST_print_desc(Node<T> *currentNode);
     void BST_sum(Node<T> *currentNode);
+    void BST_List(Node<T> *currentNode, LinkedList<T> *linkedList);
 };
 
 template<typename T>
@@ -328,6 +330,31 @@ void BinarySearchTree<T>::BST_sum(BinarySearchTree::Node<T> *currentNode)
     BST_sum(currentNode->rightNode);
 }
 
+
+
+
+
+template<typename T>
+void BinarySearchTree<T>::BST_List(LinkedList<T> *linkedList)
+{
+    BST_List(Root, linkedList);
+}
+
+template<typename T>
+void BinarySearchTree<T>::BST_List(BinarySearchTree::Node<T> *currentNode, LinkedList<T> *linkedList)
+{
+    if(currentNode == nullptr)
+        return;
+
+    BST_List(currentNode->leftNode, linkedList);
+    linkedList->push_back(currentNode->data);
+    BST_List(currentNode->rightNode, linkedList);
+}
+
+
+
+
+
 #pragma endregion
 
 
@@ -358,7 +385,12 @@ int main() {
     binarySearchTree.BST_print_asc();
     binarySearchTree.BST_print_desc();
 
-    cout << binarySearchTree.BST_sum();
+    cout << binarySearchTree.BST_sum() << endl;
+
+    LinkedList<int> L;
+    binarySearchTree.BST_List(&L);
+
+    L.PrintList();
 
     return 0;
 }
