@@ -205,6 +205,7 @@ public:
     void BST_print_desc();
     int BST_sum();
     bool isEqual(BinarySearchTree<T> *T2);
+    bool sameData(BinarySearchTree<T> *T2);
     void BST_List(LinkedList<T> *linkedList);
 private:
     template<typename T>
@@ -373,6 +374,36 @@ bool BinarySearchTree<T>::isEqual(BinarySearchTree<T> *binarySearchTree2)
     return true;
 }
 
+template<typename T>
+bool BinarySearchTree<T>::sameData(BinarySearchTree<T> *binarySearchTree2)
+{
+    LinkedList<T> linkedList1;
+    this->BST_List(&linkedList1);
+
+    LinkedList<T> linkedList2;
+    binarySearchTree2->BST_List(&linkedList2);
+
+    bool isFound;
+    for(int i = 0; i < this->size; i++)
+    {
+        isFound = false;
+
+        for(int j = 0; j < binarySearchTree2->size; j++)
+        {
+            if(linkedList1[i] == linkedList2[j])
+            {
+                isFound = true;
+                break;
+            }
+        }
+
+        if(!isFound)
+            return false;
+    }
+
+    return true;
+}
+
 
 #pragma endregion
 
@@ -414,10 +445,12 @@ int main() {
     binarySearchTree2.push_back(3);
     binarySearchTree2.push_back(24);
     binarySearchTree2.push_back(26);
+    binarySearchTree2.push_back(26);
 
     binarySearchTree2.BST_print_desc();
 
     cout << binarySearchTree.isEqual(&binarySearchTree2) << endl;
+    cout << binarySearchTree.sameData(&binarySearchTree2) << endl;
 
     LinkedList<int> L;
     binarySearchTree.BST_List(&L);
